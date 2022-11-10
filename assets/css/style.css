@@ -1,0 +1,31 @@
+/* Variable for page styling */
+root {
+    /* Page color schema - Generated with the help of 
+    the Material UI color tool for accessibility*/
+    --color-primary: #89ad6d;
+    --color-primary-light: #badf9c;
+    --color-primary-dark: #5b7e41;
+    --color-on-primary: #000;
+    --color-on-primary-light: #000;
+    --color-on-primary-dark: #FEFAED;
+    --color-secondary: #1cb9b3;
+    --color-secondary-light: #64ece5;
+    --color-secondary-dark: #008884;
+    --color-on-secondary: #FEFAED;
+    --color-on-secondary-light: #000;
+    --color-on-secondary-dark: #FEFAED;
+    --color-bg: #FEFAED;
+    --color-on-bg: #000;
+    --color-surface: #FEFAED;
+    --color-on-surface: #000;
+    --color-error: #b00020;
+    --color-on-error: #FEFAED;
+    /* Btn styling */
+    --btn-border-radius: 0.25rem;
+    --btn-hover: #64ece5;
+}
+
+/* Universal page style */
+* {
+    font-family: "Montserrat", serif;
+}
