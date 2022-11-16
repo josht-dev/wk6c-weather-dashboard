@@ -46,10 +46,10 @@ const searchHistory = {};
         ]
     }
 */
-const forecasts = {};
+let forecasts = {};
 
-// Grab current date
-const dateToday = 0; 
+// Grab current date to save/check localStorage
+const dateToday = "11/16/2022"; 
 
 
 // Global Functions Object
@@ -96,7 +96,7 @@ const globalFunc = {
                                     }
                                 ]
                             };
-                       //console.log(data);
+                       console.log(data);
                        //console.log(forecasts);
 
                     })
@@ -135,13 +135,26 @@ const globalFunc = {
                             }
                         }
                         console.log(forecasts);
+                        // Save the forecast to the localStorage
+                        this.saveForecast();
                     })
                 //
             });
         //
+        
+    }, 
+    saveForecast: function() {
+        // Save retrieved weather forecasts to localStorage for retrieval later that day
+        localStorage.setItem('savedCityWeather', JSON.stringify(forecasts));
+    }, 
+    checkExistingForecasts: function() {
+        // retrieve existing forecasts from localStorage
+        forecasts = JSON.parse(localStorage.getItem('savedCityWeather'));
+
     }
 };
 
 
-
-globalFunc.getWeather('denver', 'co', 'us');
+globalFunc.checkExistingForecasts();
+console.log(forecasts);
+//globalFunc.getWeather('denver', 'co', 'us');
