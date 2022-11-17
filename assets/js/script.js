@@ -115,18 +115,27 @@ const globalFunc = {
           //console.log(stateStr);
           // Find the index of the correct state for the city
           let index = data.findIndex(item => {return item.state === stateStr});
-          //console.log(index);
-          // Store the longitude/latitude provided by Geocoding API
-          let lat = data[index].lat;
-          let lon = data[index].lon;
           //console.log(data);
-          console.log(data[index]);
-          //console.log(`lat: ${lat}, lon: ${lon}`);
-          globalFunc.getWeather(lat, lon, data[index].name);
+          //console.log(typeof(index));
+          // Confirm the user city/state was found
+          if (index < 0) {
+            console.log('ERROR! City not found in that state.');
+          } else {
+            //console.log(index);
+            // Store the longitude/latitude provided by Geocoding API
+            let lat = data[index].lat;
+            let lon = data[index].lon;
+            //console.log(data);
+            console.log(data[index]);
+            //console.log(`lat: ${lat}, lon: ${lon}`);
+
+            // Get the forecast data
+            globalFunc.getWeather(lat, lon, data[index].name);
+          }  
         })
         //
-      },
-      getWeather: function(lat, lon, city) {
+    },
+    getWeather: function(lat, lon, city) {
         // Fetch the current weather data
         fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${oWMApiKey}&units=imperial`)
           .then(response => {return response.json();})
@@ -234,8 +243,8 @@ const globalFunc = {
     }
 };
 
-globalFunc.checkExistingForecasts();
+//globalFunc.checkExistingForecasts();
 
 //globalFunc.checkExistingForecasts();
 //console.log(forecasts);
-//globalFunc.getLatLon('loveland', 'co', 'us');
+globalFunc.getLatLon('testing', 'co', 'us');
