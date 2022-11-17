@@ -27,10 +27,10 @@ const oWMApiKey = '13cefbf544495274d042d73ae2f79b5b';
         lon: 0,
         weatherArr: [
             {
-                forecastDate: '',
-                temp: 0,
-                humidity: 0,
-                wind: 0, 
+                forecastDate: '11/17/2022',
+                temp: 70.46,
+                humidity: 30,
+                wind: 4.23, 
                 conditionIcon: '01n'
             }
         ]
@@ -97,37 +97,30 @@ const usStates = {
     UM: 'United States Minor Outlying Islands',
     VI: 'Virgin Islands, U.S.'
   };
-// Grab current date to save/check localStorage
+// Grab current date
 const dateToday = dayjs().format('MM/DD/YYYY'); 
-//console.log(dateToday);
 
-// Global Functions Object
+// Global Scope Functions Object
 const globalFunc = {
     // Any functions that need global scope will be stored in this object
-    // The stateCode/countryCode use iso-3166 2 character code
     getLatLon: function(city = 0, stateCode = 0, countryCode = 'us') {
+        // The stateCode/countryCode use iso-3166 2 character code
         // Use the Geocoding API to get longitude/latitude for OpenWeather API
         fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city},${stateCode},${countryCode}&limit=5&appid=${oWMApiKey}`)
         .then(response => {return response.json();})
         .then(data => {
           // Convert stateCode to full string
           let stateStr = usStates[stateCode.toUpperCase()];
-          //console.log(stateStr);
           // Find the index of the correct state for the city
           let index = data.findIndex(item => {return item.state === stateStr});
-          //console.log(data);
-          //console.log(typeof(index));
           // Confirm the user city/state was found
           if (index < 0) {
+            // TO DO - Change the below console.log to a modal to alert user
             console.log('ERROR! City not found in that state.');
           } else {
-            //console.log(index);
             // Store the longitude/latitude provided by Geocoding API
             let lat = data[index].lat;
             let lon = data[index].lon;
-            //console.log(data);
-            console.log(data[index]);
-            //console.log(`lat: ${lat}, lon: ${lon}`);
 
             // Get the forecast data
             globalFunc.getWeather(lat, lon, data[index].name);
@@ -140,8 +133,6 @@ const globalFunc = {
         fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${oWMApiKey}&units=imperial`)
           .then(response => {return response.json();})
           .then(data => {
-            //console.log(`lat: ${lat}, lon: ${lon}`);
-
             // Local function to only store weather forecasts
             const storeForecast = (forecastDate, temp, hum, wind, cond) => {
                 // Add current weather forecast
@@ -157,13 +148,11 @@ const globalFunc = {
 
             // Check if this is from existing data
             if (data.id in forecasts) {
-                //console.log('existing weather check success');
                 storeForecast(dateToday, data.main.temp, data.main.humidity, data.wind.speed, data.weather[0].icon);
             } else {
                 /* Check if a city name was sent as the api is not always entirely accurate
                 Check Morrison, CO using geocoding api and openweather api to confirm*/
                 city = (city) ? city : data.name;
-                //console.log(city);
                 // Add current city weather to the forecasts obj
                 forecasts[data.id] = {
                     name: city,
@@ -173,9 +162,6 @@ const globalFunc = {
                 };
                 storeForecast(dateToday, data.main.temp, data.main.humidity, data.wind.speed, data.weather[0].icon);
             }
-
-            console.log(data);
-            //console.log(forecasts);
       
             // Fetch the forecast weather data
             fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${oWMApiKey}&units=imperial`)
@@ -186,24 +172,19 @@ const globalFunc = {
               for (let i = 0; i < data.list.length; i++) {
                 // Convert the date in api response from unix
                 let dateTime = new Date(data.list[i].dt * 1000);
-                //console.log(dateTime);
                 // Convert dateTime to needed values
                 let date = dateTime.toLocaleDateString("en-US");
                 let time = dateTime.toTimeString("it-IT");
                 time = time.slice(0, 2);
                 time = Number(time);
-                //console.log('time: ' + time);
-                //console.log(typeof(time));
                 // Look for a time within the array for middle of the day
                 const timeArr = [11, 12, 13];
-                //console.log("loop: " + i);
                 if (timeArr.includes(time) && date != dateToday) {
                     //console.log("if test success");
                     // Add another days forecast to the weather array
                     storeForecast(date, data.list[i].main.temp, data.list[i].main.humidity, data.list[i].wind.speed, data.list[i].weather[0].icon);
                 }
               }
-              console.log(forecasts);
               // Save the forecast to the localStorage
               this.saveForecast();
             })
@@ -218,13 +199,12 @@ const globalFunc = {
     checkExistingForecasts: function() {
         // retrieve existing forecasts from localStorage
         if (localStorage['savedCityWeather']) {
-            //console.log('success');
             forecasts = JSON.parse(localStorage.getItem('savedCityWeather'));
             // Check if existing forecasts are still relevant
             for (const key in forecasts) {
                 // If obj still has forecast for today, use existing data
                 if (forecasts[key].weatherArr[0].forecastDate === dateToday) {
-                    //console.log('test success');
+                    // TO DO - Add call to generate weather html
     
                 } else {
                     // Remove old forecast data
@@ -241,10 +221,9 @@ const globalFunc = {
         // Save new forecasts obj to localStorage
         this.saveForecast();
     }
+    // TO DO - Add function to generate weather html
 };
 
-//globalFunc.checkExistingForecasts();
+globalFunc.checkExistingForecasts();
 
-//globalFunc.checkExistingForecasts();
-//console.log(forecasts);
-globalFunc.getLatLon('testing', 'co', 'us');
+//globalFunc.getLatLon('longmont', 'co', 'us');
