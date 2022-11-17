@@ -10,14 +10,89 @@
 </head>
 <body>
     <header>
-
+        <h1>Weather Dashboard</h1>
     </header>
 
+    <!-- City search history -->
+    <section id="sectionSearch">
+        <!-- Search bar -->
+        <div id="search-bar">
+            <input type="search" id="citySearch" placeholder="City Name, State, Country">
+        </div>
+        <!-- Search History -->
+        <div id="searchHistory">
+            <!-- City Card for search history -->
+            <!-- example city card -->
+            <article class="city-card">
+                <div class="city-name">
+                    <h2>City Name</h2>
+                    <span class="current-date">11/17/2022</span>
+                </div>
+                <!-- Weather conditions icon -->
+                <div class="container-weather-condition">
+                    <figure>
+                        <img src="#" alt="party cloudy">
+                        <figcaption>Party Cloudy</figcaption>
+                    </figure>
+                </div>
+                <!-- Current Weather for this city -->
+                <div class="container-weather">
+                    <!-- Temperature -->
+                    <div>
+                        <span class="temperature">70 F</span>
+                        <h3 class="weather-info">TEMP</h3>
+                    </div>
+                    <!-- Wind speed -->
+                    <div>
+                        <span class="wind">6 MPH</span>
+                        <h3 class="weather-info">WIND</h3>
+                    </div>
+                    <!-- humidity -->
+                    <div>
+                        <span class="humidity">17%</span>
+                        <h3 class="weather-info">HUMIDITY</h3>
+                    </div>
+                </div>
 
+            </article>       
+        </div>
+    </section>
 
-    <footer>
-
-    </footer>
+    <!-- 5 day forecast for current city -->
+    <section id="sectionForecast">
+        <!-- Weather Card for future forecast -->
+        <!-- example weather card -->
+        <article class="weather-card">
+            <div class="future-date">
+                <span class="current-date">11/17/2022</span>
+            </div>
+            <!-- Weather conditions icon -->
+            <div class="container-weather-condition">
+                <figure>
+                    <img src="#" alt="party cloudy">
+                    <figcaption>Party Cloudy</figcaption>
+                </figure>
+            </div>
+            <!-- Weather forecast for this date and city -->
+            <div class="container-weather">
+                <!-- Temperature -->
+                <div>
+                    <span class="temperature">70 F</span>
+                    <h3 class="weather-info">TEMP</h3>
+                </div>
+                <!-- Wind speed -->
+                <div>
+                    <span class="wind">6 MPH</span>
+                    <h3 class="weather-info">WIND</h3>
+                </div>
+                <!-- humidity -->
+                <div>
+                    <span class="humidity">17%</span>
+                    <h3 class="weather-info">HUMIDITY</h3>
+                </div>
+            </div>
+        </article>
+    </section>
     
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
     integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U="
