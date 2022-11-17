@@ -98,7 +98,8 @@ const usStates = {
     VI: 'Virgin Islands, U.S.'
   };
 // Grab current date to save/check localStorage
-const dateToday = "11/17/2022"; 
+const dateToday = dayjs().format('MM/DD/YYYY'); 
+//console.log(dateToday);
 
 // Global Functions Object
 const globalFunc = {
