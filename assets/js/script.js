@@ -131,28 +131,39 @@ const globalFunc = {
           .then(response => {return response.json();})
           .then(data => {
             //console.log(`lat: ${lat}, lon: ${lon}`);
-            /* Check if a city name was sent as the api is not always entirely accurate
-            Check Morrison, CO using geocoding api and openweather api to confirm*/
-            city = (city) ? city : data.name;
-            //console.log(city);
-            // Grab the date and convert it to a local format
-            let date = new Date(data.dt * 1000);
-            date = date.toLocaleDateString("en-US");
-            // Add current city weather to the forecasts obj
-            forecasts[data.id] = {
-              name: city,
-              lat: lat,
-              lon: lon,
-              weatherArr: [
-                {
-                  forecastDate: date,
-                  temp: data.main.temp,
-                  humidity: data.main.humidity,
-                  wind: data.wind.speed,
-                  conditionIcon: data.weather[0].icon
-                }
-              ]
+
+            // Local function to only store weather forecasts
+            const storeForecast = (forecastDate, temp, hum, wind, cond) => {
+                // Add current weather forecast
+                forecasts[data.id].weatherArr.push({
+                    forecastDate: forecastDate,
+                    temp: temp,
+                    humidity: hum,
+                    wind: wind,
+                    conditionIcon: cond
+                    }
+                );
             };
+
+            // Check if this is from existing data
+            if (data.id in forecasts) {
+                //console.log('existing weather check success');
+                storeForecast(dateToday, data.main.temp, data.main.humidity, data.wind.speed, data.weather[0].icon);
+            } else {
+                /* Check if a city name was sent as the api is not always entirely accurate
+                Check Morrison, CO using geocoding api and openweather api to confirm*/
+                city = (city) ? city : data.name;
+                //console.log(city);
+                // Add current city weather to the forecasts obj
+                forecasts[data.id] = {
+                    name: city,
+                    lat: lat,
+                    lon: lon,
+                    weatherArr: []
+                };
+                storeForecast(dateToday, data.main.temp, data.main.humidity, data.wind.speed, data.weather[0].icon);
+            }
+
             console.log(data);
             //console.log(forecasts);
       
@@ -177,17 +188,9 @@ const globalFunc = {
                 const timeArr = [11, 12, 13];
                 //console.log("loop: " + i);
                 if (timeArr.includes(time) && date != dateToday) {
-                  //console.log("if test success");
-                  // Add another days forecast to the weather array
-                  forecasts[data.city.id].weatherArr.push(
-                    {
-                      forecastDate: date,
-                      temp: data.list[i].main.temp,
-                      humidity: data.list[i].main.humidity,
-                      wind: data.list[i].wind.speed,
-                      conditionIcon: data.list[i].weather[0].icon
-                    }
-                  );
+                    //console.log("if test success");
+                    // Add another days forecast to the weather array
+                    storeForecast(date, data.list[i].main.temp, data.list[i].main.humidity, data.list[i].wind.speed, data.list[i].weather[0].icon);
                 }
               }
               console.log(forecasts);
@@ -204,11 +207,28 @@ const globalFunc = {
     }, 
     checkExistingForecasts: function() {
         // retrieve existing forecasts from localStorage
-        forecasts = JSON.parse(localStorage.getItem('savedCityWeather'));
+        if (localStorage['savedCityWeather']) {
+            //console.log('success');
+            forecasts = JSON.parse(localStorage.getItem('savedCityWeather'));
+            // Check if existing forecasts are still relevant
+            for (const key in forecasts) {
+                // If obj still has forecast for today, use existing data
+                if (forecasts[key].weatherArr[0].forecastDate === dateToday) {
+                    //console.log('test success');
+    
+                } else {
+                    // Remove old forecast data
+                    forecasts[key].weatherArr = []
+                    // Get new forecast data
+                    this.getWeather(forecasts[key].lat, forecasts[key].lon, forecasts[key].name);
+                }
+            }
+        }
     }
 };
 
+globalFunc.checkExistingForecasts();
 
 //globalFunc.checkExistingForecasts();
 //console.log(forecasts);
-globalFunc.getLatLon('morrison', 'co', 'us');
+//globalFunc.getLatLon('loveland', 'co', 'us');
