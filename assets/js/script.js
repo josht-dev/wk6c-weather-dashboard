@@ -225,6 +225,12 @@ const globalFunc = {
                 }
             }
         }
+    },
+    removeSavedCity: function(id) {
+        // Remove a saved city based on obj key of city
+        delete forecasts[id];
+        // Save new forecasts obj to localStorage
+        this.saveForecast();
     }
 };
 
