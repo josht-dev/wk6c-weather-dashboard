@@ -18,7 +18,7 @@ html:focus-within {
 
 /* Default body styles */
 body {
-    min-height: 100vh;
+    /*min-height: 100vh;*/
     line-height: 1.5;
     text-rendering: optimizeSpeed;
 }
