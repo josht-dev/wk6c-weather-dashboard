@@ -101,24 +101,25 @@ const usStates = {
 const dateToday = dayjs().format('MM/DD/YYYY');
 // Used to convert weather condition codes to relative image paths and alt text
 const conditions = {
-    '01d': '../icons/slight_touch_happyday.png',
-    '02d': '../icons/partly_cloudy.png',
-    '03d': '../icons/cloudy.png',
-    '04d': '../icons/',
-    '09d': '../icons/raindrops.png',
-    '10d': '../icons/rainy.png',
-    '11d': '../icons/thnderstorm.png',
-    '13d': '../icons/snowy.png',
-    '50d': '../icons/',
-    '01n': '../icons/slight_touch_happyday-1.png',
-    '02n': '../icons/partly_cloudy-1.png',
-    '03n': '../icons/cloudy-1.png',
-    '04n': '../icons/',
-    '09n': '../icons/raindrops-1.png',
-    '10n': '../icons/rainy-1.png',
-    '11n': '../icons/thnderstorm-1.png',
-    '13n': '../icons/snowy-1.png',
-    '50n': '../icons/',
+    // TO DO - Add missing icons
+    '01d': './assets/icons/slight_touch_happyday.png',
+    '02d': './assets/icons/partly_cloudy.png',
+    '03d': './assets/icons/cloudy.png',
+    '04d': './assets/icons/',
+    '09d': './assets/icons/raindrops.png',
+    '10d': './assets/icons/rainy.png',
+    '11d': './assets/icons/thnderstorm.png',
+    '13d': './assets/icons/snowy.png',
+    '50d': './assets/icons/',
+    '01n': './assets/icons/slight_touch_happyday-1.png',
+    '02n': './assets/icons/partly_cloudy-1.png',
+    '03n': './assets/icons/cloudy-1.png',
+    '04n': './assets/icons/',
+    '09n': './assets/icons/raindrops-1.png',
+    '10n': './assets/icons/rainy-1.png',
+    '11n': './assets/icons/thnderstorm-1.png',
+    '13n': './assets/icons/snowy-1.png',
+    '50n': './assets/icons/',
     '01': 'clear skies',
     '02': 'few clouds',
     '03': 'scattered clouds',
@@ -194,6 +195,8 @@ const globalFunc = {
                     weatherArr: []
                 };
                 storeForecast(dateToday, data.main.temp, data.main.humidity, data.wind.speed, data.weather[0].icon);
+                // Generate html city card
+                this.htmlAddCity(forecasts[data.id], data.id);
             }
       
             // Fetch the forecast weather data
@@ -237,15 +240,18 @@ const globalFunc = {
             for (const key in forecasts) {
                 // If obj still has forecast for today, use existing data
                 if (forecasts[key].weatherArr[0].forecastDate === dateToday) {
+                    // Generate html city cards
+                    this.htmlAddCity(forecasts[key], key);
+
                     // TO DO - Add html weather forecasts for first city in forecasts
+
                 } else {
                     // Remove old forecast data
                     forecasts[key].weatherArr = []
                     // Get new forecast data
                     this.getWeather(forecasts[key].lat, forecasts[key].lon, forecasts[key].name);
                 }
-                // Generate html city cards
-                this.htmlAddCity(forecasts[key], key);
+                
             }
         }
     },
@@ -260,7 +266,6 @@ const globalFunc = {
         const conditionCode = cityObj.weatherArr[0].conditionIcon;
         const weatherIcon = conditions[conditionCode];
         const weatherAltText = conditions[conditionCode[0] + conditionCode[1]];
-        console.log(weatherAltText);
 
         // Create html elements
         const cityCard = document.createElement("article");
@@ -270,7 +275,6 @@ const globalFunc = {
         const conditionContainer = document.createElement("div");
         const figure = document.createElement("figure");
         const img = document.createElement("img");
-        const figcaption = document.createElement("figcaption");
         const weather = document.createElement("div");
         const tempDiv = document.createElement("div");
         const tempH3 = document.createElement("h3");
@@ -301,7 +305,6 @@ const globalFunc = {
         // Add text for user to see in created elements
         h2.textContent = cityObj.name;
         date.textContent = dateToday;
-        figcaption.textContent = weatherAltText;
         tempSpan.textContent = cityObj.weatherArr[0].temp + ' \u00B0' + 'F';
         tempH3.textContent - 'TEMP';
         windSpan.textContent = cityObj.weatherArr[0].wind + ' MPH';
@@ -313,7 +316,6 @@ const globalFunc = {
         cityName.appendChild(h2);
         cityName.appendChild(date);
         figure.appendChild(img);
-        figure.appendChild(figcaption);
         conditionContainer.appendChild(figure);
         tempDiv.appendChild(tempSpan);
         tempDiv.appendChild(tempH3);
