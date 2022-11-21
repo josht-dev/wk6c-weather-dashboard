@@ -35,30 +35,35 @@ body {
     margin:0 auto;
     display: grid;
     grid-template-columns: 50% 50%;
-
-
-    border: 1px solid red;
 }
 
 header {
     width: 100%;
     grid-column: 1 / span 2;
     grid-row: 1;
-    height: 3rem;
+    height: 3.5rem;
+    background-color: #1CB9B3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-    border: 1px solid red;
+h1 {
+    font-size: 1.75rem;
+    font-weight: 400;
+    line-height: 1.5rem;
+    color: #fff;
 }
 
 section {
     margin: 0.25rem;
-
-
-
-    border: 1px solid red;
 }
 
-#search-bar {
+#citySearch {
     width: 100%;
+}
+#citySearch::placeholder {
+    padding-left: 1rem;
 }
 
 article {
@@ -68,43 +73,75 @@ article {
 .weather-card, .city-card {
     display: grid;
     grid-template: auto auto auto / auto auto auto auto;
-    border: 1px solid blue;
+    
+    border-radius: var(--btn-border-radius);
+    box-shadow: -1px 1px 6px 0 rgba(74, 74, 74, 0.15);
+}
+
+h2 {
+    font-size: 3rem;
+    font-weight: 600;
+    line-height: 3.5rem;
+    letter-spacing: -0.04em;
+}
+
+.current-date, .future-date {
+    font-size: 1.25rem;
+    font-weight: 400;
+    line-height: 1.5rem;
+    color: #A0ABBB;
 }
 
 .future-date {
     grid-column: 1 / span 3;
     grid-row: 1;
-    border: 1px solid grey;
+    padding: 1rem 0 1rem 1rem;
 }
 
 .container-weather-condition {
     grid-column: 4;
     grid-row: 1 / span 3;
-    border: 1px solid grey;
+}
+
+.city-name {
+    padding: 1rem 0 1.5rem 1rem;
 }
 
 .container-weather {
     grid-column: 1 / span 3;
     grid-row: 2 / span 2;
-    border: 1px solid grey;
     display: grid;
     grid-template-columns: auto auto auto;
+    padding: 0 0 1rem 1rem;
+}
+
+.city-card .container-weather {
+    padding-left: 1rem;
 }
 
 .container-weather div:first-child {
     grid-column: 1;
-
-    border: 1px dotted green;
 }
 
 .container-weather div:nth-child(2) {
     grid-column: 2;
-
-    border: 5px dotted black;
 }
 
 .container-weather div:nth-child(3) {
     grid-column: 3;
-
-    border: 5px dotted grey;
 }
+
+.temperature, .wind, .humidity {
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 2rem;
+    color: #323A46;
+}
+
+h3 {
+    font-size: 1.25rem;
+    font-weight: 400;
+    line-height: 1.5rem;
+    color: #A0ABBB;
+}
+
