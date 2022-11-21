@@ -101,6 +101,15 @@ h2 {
 .container-weather-condition {
     grid-column: 4;
     grid-row: 1 / span 3;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
+.container-weather-condition figure img{
+    width: 6.75rem;
+    height: 6.25rem;
+    object-fit: contain;
 }
 
 .city-name {
