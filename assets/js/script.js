@@ -98,7 +98,40 @@ const usStates = {
     VI: 'Virgin Islands, U.S.'
   };
 // Grab current date
-const dateToday = dayjs().format('MM/DD/YYYY'); 
+const dateToday = dayjs().format('MM/DD/YYYY');
+// Used to convert weather condition codes to relative image paths and alt text
+const conditions = {
+    '01d': '../icons/slight_touch_happyday.png',
+    '02d': '../icons/partly_cloudy.png',
+    '03d': '../icons/cloudy.png',
+    '04d': '../icons/',
+    '09d': '../icons/raindrops.png',
+    '10d': '../icons/rainy.png',
+    '11d': '../icons/thnderstorm.png',
+    '13d': '../icons/snowy.png',
+    '50d': '../icons/',
+    '01n': '../icons/slight_touch_happyday-1.png',
+    '02n': '../icons/partly_cloudy-1.png',
+    '03n': '../icons/cloudy-1.png',
+    '04n': '../icons/',
+    '09n': '../icons/raindrops-1.png',
+    '10n': '../icons/rainy-1.png',
+    '11n': '../icons/thnderstorm-1.png',
+    '13n': '../icons/snowy-1.png',
+    '50n': '../icons/',
+    '01': 'clear skies',
+    '02': 'few clouds',
+    '03': 'scattered clouds',
+    '04': 'broken clouds',
+    '09': 'rain drizzle',
+    '10': 'rain',
+    '11': 'thunderstorms',
+    '13': 'snow',
+    '50': 'foggy'
+}
+// DOM variables
+const cityList = document.getElementById("searchHistory");
+const futureForecasts = document.getElementById("sectionForecast");
 
 // Global Scope Functions Object
 const globalFunc = {
@@ -204,14 +237,15 @@ const globalFunc = {
             for (const key in forecasts) {
                 // If obj still has forecast for today, use existing data
                 if (forecasts[key].weatherArr[0].forecastDate === dateToday) {
-                    // TO DO - Add call to generate weather html
-    
+                    // TO DO - Add html weather forecasts for first city in forecasts
                 } else {
                     // Remove old forecast data
                     forecasts[key].weatherArr = []
                     // Get new forecast data
                     this.getWeather(forecasts[key].lat, forecasts[key].lon, forecasts[key].name);
                 }
+                // Generate html city cards
+                this.htmlAddCity(forecasts[key], key);
             }
         }
     },
@@ -220,8 +254,85 @@ const globalFunc = {
         delete forecasts[id];
         // Save new forecasts obj to localStorage
         this.saveForecast();
+    },
+    htmlAddCity: function(cityObj, cityId) {
+        // Function local variables
+        const conditionCode = cityObj.weatherArr[0].conditionIcon;
+        const weatherIcon = conditions[conditionCode];
+        const weatherAltText = conditions[conditionCode[0] + conditionCode[1]];
+        console.log(weatherAltText);
+
+        // Create html elements
+        const cityCard = document.createElement("article");
+        const cityName = document.createElement("div");
+        const h2 = document.createElement("h2");
+        const date = document.createElement("span");
+        const conditionContainer = document.createElement("div");
+        const figure = document.createElement("figure");
+        const img = document.createElement("img");
+        const figcaption = document.createElement("figcaption");
+        const weather = document.createElement("div");
+        const tempDiv = document.createElement("div");
+        const tempH3 = document.createElement("h3");
+        const tempSpan = document.createElement("span");
+        const windDiv = document.createElement("div");
+        const windH3 = document.createElement("h3");
+        const windSpan = document.createElement("span");
+        const humidityDiv = document.createElement("div");        
+        const humidityH3 = document.createElement("h3");
+        const humiditySpan = document.createElement("span");
+
+        // Add attributes to html elements
+        cityCard.classList.add("city-card");
+        cityCard.setAttribute("data-id", cityId);
+        cityName.classList.add("city-name");
+        date.classList.add("current-date");
+        conditionContainer.classList.add("container-weather-condition");
+        img.setAttribute("src", weatherIcon);
+        img.setAttribute("alt", weatherAltText);
+        weather.classList.add("container-weather");
+        tempSpan.classList.add("temperature");
+        tempH3.classList.add("weather-info");
+        windSpan.classList.add("wind");
+        windH3.classList.add("weather-info");
+        humiditySpan.classList.add("humidity");
+        humidityH3.classList.add("weather-info");
+
+        // Add text for user to see in created elements
+        h2.textContent = cityObj.name;
+        date.textContent = dateToday;
+        figcaption.textContent = weatherAltText;
+        tempSpan.textContent = cityObj.weatherArr[0].temp + ' \u00B0' + 'F';
+        tempH3.textContent - 'TEMP';
+        windSpan.textContent = cityObj.weatherArr[0].wind + ' MPH';
+        windH3.textContent - 'WIND';
+        humiditySpan.textContent = cityObj.weatherArr[0].humidity + '%';
+        humidityH3.textContent - 'HUMIDITY';
+
+        // Append elements together to create html city card
+        cityName.appendChild(h2);
+        cityName.appendChild(date);
+        figure.appendChild(img);
+        figure.appendChild(figcaption);
+        conditionContainer.appendChild(figure);
+        tempDiv.appendChild(tempSpan);
+        tempDiv.appendChild(tempH3);
+        windDiv.appendChild(windSpan);
+        windDiv.appendChild(windH3);
+        humidityDiv.appendChild(humiditySpan);
+        humidityDiv.appendChild(humidityH3);
+        weather.appendChild(tempDiv);
+        weather.appendChild(windDiv);
+        weather.appendChild(humidityDiv);
+        cityCard.appendChild(cityName);
+        cityCard.appendChild(conditionContainer);
+        cityCard.appendChild(weather);
+        // Add city card to html
+        cityList.appendChild(cityCard);
+
+        // TO DO - Add sorting alphabetically or by add date
+        // TO DO - Change weather in CSS class 'container-weather' to a function
     }
-    // TO DO - Add function to generate weather html
 };
 
 globalFunc.checkExistingForecasts();
