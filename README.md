@@ -2,21 +2,7 @@
 
 ## Description
 
-Provide a short description explaining the what, why, and how of your project. Use the following questions as a guide:
-
-- What was your motivation?
-- Why did you build this project? (Note: the answer is not "Because it was a homework assignment.")
-- What problem does it solve?
-- What did you learn?
-
-## Table of Contents (Optional)
-
-If your README is long, add a table of contents to make it easy for users to find what they need.
-
-- [Installation](#installation)
-- [Usage](#usage)
-- [Credits](#credits)
-- [License](#license)
+The weather dashboard provides the user with a way to search for the current and 5-day weather forecasts for any city in the United States. The city latitude/longitude as well as the current weather data are stored in the users localStorage. The site checks local storage on load for any saved city location data so the geocoding API only needs to be used when a new city's weather data is needed. It also stores current weather and displays it at all times on the city cards to the user. The weather data is saved with the city in localStorage so repeated page reloads will not continually request data from the API.
 
 ## Installation
 
@@ -24,21 +10,15 @@ N/A
 
 ## Usage
 
-Provide instructions and examples for use. Include screenshots as needed.
-
-To add a screenshot, create an `assets/images` folder in your repository and upload your screenshot to it. Then, using the relative filepath, add it to your README using the following syntax:
+By entering a city name followed by a comma and state code, the user can view the current weather and 5-day forecast for that city. The site will add that city to the list of cities. The user can click on any city previously searched to see the 5-day forecast for that city. The city history is stored locally.
 
 Deployed Page: https://josht-dev.github.io/wk6c-weather-dashboard/
 
-![alt text](./assets/images/screenshot.png)
+![alt text](./assets/images/weatherDashboard.png)
 
 ## Credits
 
-List your collaborators, if any, with links to their GitHub profiles.
-
-If you used any third-party assets that require attribution, list the creators with links to their primary web presence in this section.
-
-If you followed tutorials, include links to those here as well.
+N/A
 
 ## License
 
