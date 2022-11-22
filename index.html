@@ -181,9 +181,9 @@
     </section>
 
     <!-- Error modal to inform the user of what went wrong with their city search -->
-    <div id="error" class="hidden">
+    <div id="error" class="modal hidden">
         <span></span>
-        <button onclick="this.parentElement.classList.toggle('hidden')">Close</button>
+        <button onclick="globalFunc.hideModal()">Close</button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"

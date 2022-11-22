@@ -373,7 +373,10 @@ const globalFunc = {
         }
     },
     htmlError: function(errorTxt) {
-        errorModal.textContent = errorTxt;
+        errorModal.getElementsByTagName("span")[0].textContent = errorTxt;
+        errorModal.classList.toggle("hidden");
+    },
+    hideModal: function() {
         errorModal.classList.toggle("hidden");
     }
 };
