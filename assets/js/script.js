@@ -133,6 +133,30 @@ const conditions = {
 // DOM variables
 const cityList = document.getElementById("searchHistory");
 const weatherCardList = document.getElementsByClassName("weather-card");
+const searchBtn = document.getElementById("citySearch");
+searchBtn.addEventListener("keypress", function(event) {
+    // Check if user hit enter key
+    if (event.code === 'Enter') {
+        // Validate that a city and state code were attempted
+        let val = event.target.value;
+        let city = '';
+        let state = '';
+        let country = '';
+        // Parse value for city, state, country codes
+        let valParsed = val.split(",");
+        if (val) {
+            // Check for at least 2 values in the valParsed array
+            if (valParsed.length > 1) {
+                city = valParsed[0];
+                state = valParsed[1].trim();
+                country = (valParsed[2]) ? valParsed[2] : 'us';
+                globalFunc.getLatLon(city, state, country);
+            } else {
+                console.log("ERROR! User must enter at least a city and state separated by a comma.");
+            }
+        };
+    }
+})
 
 // Global Scope Functions Object
 const globalFunc = {
@@ -224,6 +248,8 @@ const globalFunc = {
               this.htmlAddFutureWeather(data.city.id);
               // Save the forecast to the localStorage
               this.saveForecast();
+              // Empty the html search input field
+              searchBtn.value = '';
             })
             //
           })
@@ -350,6 +376,13 @@ const globalFunc = {
             htmlCard.getElementsByClassName("wind")[0].textContent = weatherObj.wind + ' MPH';
             htmlCard.getElementsByClassName("humidity")[0].textContent = weatherObj.humidity + '%';
         }
+    },
+    htmlSearchBtn: function(val) {
+        console.log(val);
+
+
+
+
     }
 };
 
