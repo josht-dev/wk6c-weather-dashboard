@@ -374,4 +374,6 @@ const globalFunc = {
     }
 };
 
+// TO DO - Only keep the last few searched cities
+
 globalFunc.checkExistingForecasts();
