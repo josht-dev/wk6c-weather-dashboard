@@ -10,6 +10,7 @@ body {
     grid-template-columns: 50% 50%;
 }
 
+/* Header bar style */
 header {
     width: 100%;
     grid-column: 1 / span 2;
@@ -28,10 +29,13 @@ h1 {
     color: #fff;
 }
 
+/* City history and 5-day forecast sections */
+
 section {
     margin: 0.25rem;
 }
 
+/* Search bar styling */
 #search-bar {
     margin: 0.5rem;
 }
@@ -46,6 +50,7 @@ section {
     border-radius: 0.5rem;
 }
 
+/* City and weather card styling */
 article {
     margin: 0.5rem 0;
 }
@@ -133,10 +138,12 @@ h3 {
     color: #A0ABBB;
 }
 
+/* Currently selected city if more than 1 in history */
 .selected {
     border: .25rem solid #1CB9B3;
 }
 
+/* Error modal styling */
 #error {
     position: absolute;
     top: 50%;
@@ -162,7 +169,9 @@ h3 {
     align-items: center;
 }
 
+/* Hide container when needed */
 .hidden {
     display: none;
 }
 
+/* TO DO - Add tablet/mobile responsive styling */
