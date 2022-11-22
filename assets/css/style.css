@@ -134,3 +134,6 @@ h3 {
     color: #A0ABBB;
 }
 
+.selected {
+    border: .05rem solid #1CB9B3;
+}
