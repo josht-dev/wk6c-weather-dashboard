@@ -148,7 +148,7 @@ const globalFunc = {
     getLatLon: function(city = 0, stateCode = 0, countryCode = 'us') {
         // The stateCode/countryCode use iso-3166 2 character code
         // Use the Geocoding API to get longitude/latitude for OpenWeather API
-        fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city},${stateCode},${countryCode}&limit=5&appid=${oWMApiKey}`)
+        fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city},${stateCode},${countryCode}&limit=5&appid=${oWMApiKey}`)
         .then(response => {return response.json();})
         .then(data => {
           // Convert stateCode to full string
