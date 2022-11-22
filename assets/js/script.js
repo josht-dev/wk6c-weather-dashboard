@@ -313,11 +313,11 @@ const globalFunc = {
         // Add text for user to see in created elements
         h2.textContent = cityObj.name;
         date.textContent = dateToday;
-        tempSpan.textContent = cityObj.weatherArr[0].temp + ' \u00B0' + 'F';
+        tempSpan.textContent = Math.round(cityObj.weatherArr[0].temp) + ' \u00B0' + 'F';
         tempH3.textContent - 'TEMP';
-        windSpan.textContent = cityObj.weatherArr[0].wind + ' MPH';
+        windSpan.textContent = Math.round(cityObj.weatherArr[0].wind) + ' MPH';
         windH3.textContent - 'WIND';
-        humiditySpan.textContent = cityObj.weatherArr[0].humidity + '%';
+        humiditySpan.textContent = Math.round(cityObj.weatherArr[0].humidity) + '%';
         humidityH3.textContent - 'HUMIDITY';
 
         // Add onclick for each html city card
@@ -358,9 +358,9 @@ const globalFunc = {
             htmlCard.getElementsByClassName("current-date")[0].textContent = weatherObj.forecastDate;
             htmlCard.getElementsByTagName("img")[0].setAttribute("src", weatherIcon);
             htmlCard.getElementsByTagName("img")[0].setAttribute("alt", weatherAltText);
-            htmlCard.getElementsByClassName("temperature")[0].textContent = weatherObj.temp + ' \u00B0' + 'F';
-            htmlCard.getElementsByClassName("wind")[0].textContent = weatherObj.wind + ' MPH';
-            htmlCard.getElementsByClassName("humidity")[0].textContent = weatherObj.humidity + '%';
+            htmlCard.getElementsByClassName("temperature")[0].textContent = Math.round(weatherObj.temp) + ' \u00B0' + 'F';
+            htmlCard.getElementsByClassName("wind")[0].textContent = Math.round(weatherObj.wind) + ' MPH';
+            htmlCard.getElementsByClassName("humidity")[0].textContent = Math.round(weatherObj.humidity) + '%';
         }
         // If there is more than one html city card, give border to selected city
         if (Object.keys(forecasts).length > 1) {
