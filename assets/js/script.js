@@ -152,6 +152,7 @@ searchBtn.addEventListener("keypress", function(event) {
                 country = (valParsed[2]) ? valParsed[2] : 'us';
                 globalFunc.getLatLon(city, state, country);
             } else {
+                // TO DO - Change this to a modal
                 console.log("ERROR! User must enter at least a city and state separated by a comma.");
             }
         };
@@ -174,7 +175,7 @@ const globalFunc = {
           // Confirm the user city/state was found
           if (index < 0) {
             // TO DO - Change the below console.log to a modal to alert user
-            console.log('ERROR! City not found in that state.');
+            console.log('ERROR! City not found in that state or a valid state code was not used.');
           } else {
             // Store the longitude/latitude provided by Geocoding API
             let lat = data[index].lat;
@@ -376,16 +377,7 @@ const globalFunc = {
             htmlCard.getElementsByClassName("wind")[0].textContent = weatherObj.wind + ' MPH';
             htmlCard.getElementsByClassName("humidity")[0].textContent = weatherObj.humidity + '%';
         }
-    },
-    htmlSearchBtn: function(val) {
-        console.log(val);
-
-
-
-
     }
 };
 
 globalFunc.checkExistingForecasts();
-
-//globalFunc.getLatLon('longmont', 'co', 'us');
