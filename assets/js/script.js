@@ -115,6 +115,7 @@ const conditions = {
 // DOM variables
 const cityList = document.getElementById("searchHistory");
 const weatherCardList = document.getElementsByClassName("weather-card");
+const errorModal = document.getElementById("error");
 const searchBtn = document.getElementById("citySearch");
 searchBtn.addEventListener("keypress", function(event) {
     // Check if user hit enter key
@@ -134,8 +135,8 @@ searchBtn.addEventListener("keypress", function(event) {
                 country = (valParsed[2]) ? valParsed[2] : 'us';
                 globalFunc.getLatLon(city, state, country);
             } else {
-                // TO DO - Change this to a modal
-                console.log("ERROR! User must enter at least a city and state separated by a comma.");
+                // Bring up error modal to user
+                globalFunc.htmlError("ERROR! User must enter at least a city and state separated by a comma.");
             }
         };
     }
@@ -156,15 +157,15 @@ const globalFunc = {
           let index = data.findIndex(item => {return item.state === stateStr});
           // Confirm the user city/state was found
           if (index < 0) {
-            // TO DO - Change the below console.log to a modal to alert user
-            console.log('ERROR! City not found in that state or a valid state code was not used.');
+            // Bring up an error modal to user
+            this.htmlError('ERROR! City not found in that state or a valid state code was not used.');
           } else {
             // Store the longitude/latitude provided by Geocoding API
             let lat = data[index].lat;
             let lon = data[index].lon;
 
             // Get the forecast data
-            globalFunc.getWeather(lat, lon, data[index].name);
+            this.getWeather(lat, lon, data[index].name);
           }  
         })
         //
@@ -222,7 +223,6 @@ const globalFunc = {
                 // Look for a time within the array for middle of the day
                 const timeArr = [11, 12, 13];
                 if (timeArr.includes(time) && date != dateToday) {
-                    //console.log("if test success");
                     // Add another days forecast to the weather array
                     storeForecast(date, data.list[i].main.temp, data.list[i].main.humidity, data.list[i].wind.speed, data.list[i].weather[0].icon);
                 }
@@ -371,6 +371,10 @@ const globalFunc = {
                 }
             }
         }
+    },
+    htmlError: function(errorTxt) {
+        errorModal.textContent = errorTxt;
+        errorModal.classList.toggle("hidden");
     }
 };
 
