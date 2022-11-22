@@ -338,6 +338,9 @@ const globalFunc = {
         humiditySpan.textContent = cityObj.weatherArr[0].humidity + '%';
         humidityH3.textContent - 'HUMIDITY';
 
+        // Add onclick for each html city card
+        cityCard.setAttribute("onclick", 'globalFunc.htmlAddFutureWeather(this.getAttribute("data-id"))');
+
         // Append elements together to create html city card
         cityName.appendChild(h2);
         cityName.appendChild(date);
