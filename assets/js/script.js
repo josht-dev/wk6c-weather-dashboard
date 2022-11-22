@@ -132,7 +132,7 @@ const conditions = {
 }
 // DOM variables
 const cityList = document.getElementById("searchHistory");
-const futureForecasts = document.getElementById("sectionForecast");
+const weatherCardList = document.getElementsByClassName("weather-card");
 
 // Global Scope Functions Object
 const globalFunc = {
@@ -203,7 +203,6 @@ const globalFunc = {
             fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${oWMApiKey}&units=imperial`)
             .then(response => {return response.json();})
             .then(data => {
-              console.log(data);
               // Pull data from response for city forecast obj
               for (let i = 0; i < data.list.length; i++) {
                 // Convert the date in api response from unix
@@ -221,6 +220,8 @@ const globalFunc = {
                     storeForecast(date, data.list[i].main.temp, data.list[i].main.humidity, data.list[i].wind.speed, data.list[i].weather[0].icon);
                 }
               }
+              // Add html future weather forecasts
+              this.htmlAddFutureWeather(data.city.id);
               // Save the forecast to the localStorage
               this.saveForecast();
             })
@@ -242,16 +243,14 @@ const globalFunc = {
                 if (forecasts[key].weatherArr[0].forecastDate === dateToday) {
                     // Generate html city cards
                     this.htmlAddCity(forecasts[key], key);
-
-                    // TO DO - Add html weather forecasts for first city in forecasts
-
+                    // Add html weather forecasts for first city in forecasts
+                    this.htmlAddFutureWeather(Object.keys(forecasts)[0]);
                 } else {
                     // Remove old forecast data
                     forecasts[key].weatherArr = []
                     // Get new forecast data
                     this.getWeather(forecasts[key].lat, forecasts[key].lon, forecasts[key].name);
-                }
-                
+                }    
             }
         }
     },
@@ -333,7 +332,24 @@ const globalFunc = {
         cityList.appendChild(cityCard);
 
         // TO DO - Add sorting alphabetically or by add date
-        // TO DO - Change weather in CSS class 'container-weather' to a function
+    },
+    htmlAddFutureWeather: function(cityId) {
+        // Loop through weatherCardList to set html future weather forecasts
+        for (let i = 0; i < weatherCardList.length; i++) {
+            // Grab needed data
+            const weatherObj = forecasts[cityId].weatherArr[i+1];
+            const htmlCard = weatherCardList[i];
+            const conditionCode = weatherObj.conditionIcon;
+            const weatherIcon = conditions[conditionCode];
+            const weatherAltText = conditions[conditionCode[0] + conditionCode[1]];
+            // Set html weather data
+            htmlCard.getElementsByClassName("current-date")[0].textContent = weatherObj.forecastDate;
+            htmlCard.getElementsByTagName("img")[0].setAttribute("src", weatherIcon);
+            htmlCard.getElementsByTagName("img")[0].setAttribute("alt", weatherAltText);
+            htmlCard.getElementsByClassName("temperature")[0].textContent = weatherObj.temp + ' \u00B0' + 'F';
+            htmlCard.getElementsByClassName("wind")[0].textContent = weatherObj.wind + ' MPH';
+            htmlCard.getElementsByClassName("humidity")[0].textContent = weatherObj.humidity + '%';
+        }
     }
 };
 
